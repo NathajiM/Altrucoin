@@ -784,6 +784,7 @@ contract TestBest4 is Context, IERC20, Ownable {
     }
     
     //Use when new router is released but pair hasnt been created yet.
+    //Make sure to add initial liquidity manually after pair is made! Otherwise swapAndLiquify will fail.
     function setRouterAddressAndCreatePair(address newRouter) public onlyOwner() {
         IUniswapV2Router02 _newPancakeRouter = IUniswapV2Router02(newRouter);
         uniswapV2Pair = IUniswapV2Factory(_newPancakeRouter.factory()).createPair(address(this), _newPancakeRouter.WETH());
