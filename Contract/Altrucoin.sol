@@ -738,7 +738,7 @@ contract TestBest4 is Context, IERC20, Ownable {
     address public charityWallet = 0xf878591572C4D3277A509664BcBE59194ADacD99;
     address public developmentWallet = 0x615042ee933fBEE8493bEB82C30495A55731AaF6;
     address public marketingWallet = 0xe2c566D819Dc384BB8B71EaC23CCf6156658bA60;
-    address public dexWallet = address(this);
+    address public liquidityWallet = address(this);
 
     IUniswapV2Router02 public uniswapV2Router;
     address public uniswapV2Pair;
@@ -820,9 +820,9 @@ contract TestBest4 is Context, IERC20, Ownable {
     }
 
     //Used for changing DEXs completely, used in case PCS goes down or new DEX become more popular/liquidity splitting between multiple exchanges.
-    function changeDex(address newDexWallet) public onlyOwner() {
-        dexWallet = newDexWallet;
-        _isExcludedFromFee[dexWallet] = true;
+    function setLiquidityAddress(address newliquidityWallet) public onlyOwner() {
+        liquidityWallet = newliquidityWallet;
+        _isExcludedFromFee[liquidityWallet] = true;
     }
 
     function name() public view returns (string memory) {
@@ -1038,9 +1038,9 @@ contract TestBest4 is Context, IERC20, Ownable {
     function _takeLiquidity(uint256 tLiquidity) private {
         uint256 currentRate =  _getRate();
         uint256 rLiquidity = tLiquidity.mul(currentRate);
-        _rOwned[dexWallet] = _rOwned[dexWallet].add(rLiquidity);
-        if(_isExcluded[dexWallet])
-            _tOwned[dexWallet] = _tOwned[dexWallet].add(tLiquidity);
+        _rOwned[liquidityWallet] = _rOwned[liquidityWallet].add(rLiquidity);
+        if(_isExcluded[liquidityWallet])
+            _tOwned[liquidityWallet] = _tOwned[liquidityWallet].add(tLiquidity);
     }
 
     function _takeCharity(uint256 tCharity) private {
