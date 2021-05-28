@@ -746,7 +746,7 @@ contract TestBest4 is Context, IERC20, Ownable {
     bool public swapAndLiquifyEnabled = true;
     
     uint256 public _maxTxAmount = 5000000 * 10**6 * 10**9;
-    uint256 private numTokensSellToAddToLiquidity = 500000 * 10**6 * 10**9;
+    uint256 private numTokensSellToAddToLiquidity = 50000 * 10**6 * 10**9;
     
     event MinTokensBeforeSwapUpdated(uint256 minTokensBeforeSwap);
     event SwapAndLiquifyEnabledUpdated(bool enabled);
@@ -783,31 +783,38 @@ contract TestBest4 is Context, IERC20, Ownable {
         emit Transfer(address(0), _msgSender(), _tTotal);
     }
     
+    //Use when new router is released but pair hasnt been created yet.
     function setRouterAddressAndCreatePair(address newRouter) public onlyOwner() {
         IUniswapV2Router02 _newPancakeRouter = IUniswapV2Router02(newRouter);
         uniswapV2Pair = IUniswapV2Factory(_newPancakeRouter.factory()).createPair(address(this), _newPancakeRouter.WETH());
         uniswapV2Router = _newPancakeRouter;
     }
     
+    //Use when new router is released and pair HAS been created already.
     function setRouterAddress(address newRouter) public onlyOwner() {
         IUniswapV2Router02 _newPancakeRouter = IUniswapV2Router02(newRouter);
         uniswapV2Router = _newPancakeRouter;
     }
     
+    //Use when new router is released and pair HAS been created already.
     function setPairAddress(address newPair) public onlyOwner() {
         uniswapV2Pair = newPair;
     }
     
+    //Following functions are to update wallets for decentralization.
     function setCharityAddress(address newCharityWallet) public onlyOwner() {
         charityWallet = newCharityWallet;
+        _isExcludedFromFee[charityWallet] = true;
     }
     
     function setDevelopmentAddress(address newDevWallet) public onlyOwner() {
         developmentWallet = newDevWallet;
+        _isExcludedFromFee[developmentWallet] = true;
     }
     
     function setMarketingAddress(address newMarketingWallet) public onlyOwner() {
         marketingWallet = newMarketingWallet;
+        _isExcludedFromFee[marketingWallet] = true;
     }
 
     function name() public view returns (string memory) {
