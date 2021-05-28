@@ -803,7 +803,7 @@ contract TestBest4 is Context, IERC20, Ownable {
         uniswapV2Pair = newPair;
     }
     
-    //Following functions are to update wallets for decentralization.
+    //Following functions are to update protocol wallets for future decentralization.
     function setCharityAddress(address newCharityWallet) public onlyOwner() {
         charityWallet = newCharityWallet;
         _isExcludedFromFee[charityWallet] = true;
@@ -819,12 +819,11 @@ contract TestBest4 is Context, IERC20, Ownable {
         _isExcludedFromFee[marketingWallet] = true;
     }
 
-    //Used for changing DEXs completely
+    //Used for changing DEXs completely, used in case PCS goes down or new DEX become more popular/liquidity splitting between multiple exchanges.
     function changeDex(address newDexWallet) public onlyOwner() {
         dexWallet = newDexWallet;
         _isExcludedFromFee[dexWallet] = true;
     }
-    //disable swap and liq -> remove liquidity of x amount -> manually or automatically change router and pair -> enable swap and liquify
 
     function name() public view returns (string memory) {
         return _name;
