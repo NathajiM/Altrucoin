@@ -1,15 +1,16 @@
 /**
- *Submitted for verification at BscScan.com on 2021-04-18
-*/
+ * 
+ * 
+    Altrucoin: Earn to Give, Give to Earn.
 
-/**
- * 
- * 
    #AltruCoin features:
-   5% fee auto added to the liquidity pool and locked forever
-   5% fee auto distributed to all holders
-   30% Supply is burned at start.
-   
+   10% transaciton fee as follows:
+    5% fee auto distributed to all holders
+    2% fee auto added to the liquidity pool and locked
+    1.5% fee sent to charity wallet
+    %.75 fee sent to marketing wallet
+    %.75 fee sent to development wallet
+ *
  */
 
 pragma solidity ^0.6.12;
@@ -735,10 +736,10 @@ contract TestBest4 is Context, IERC20, Ownable {
     uint256 public _liquidityFee = 2;
     uint256 private _previousLiquidityFee = _liquidityFee;
     
-    address public charityWallet = 0xf878591572C4D3277A509664BcBE59194ADacD99;
-    address public developmentWallet = 0x615042ee933fBEE8493bEB82C30495A55731AaF6;
-    address public marketingWallet = 0xe2c566D819Dc384BB8B71EaC23CCf6156658bA60;
-    address public liquidityWallet = address(this);
+    address public charityWallet = 0x523F8b8949eaEa6909C6877459a74Af4C943271F;
+    address public developmentWallet = 0x9CCB1ceF587E5A7a87489b983AbbDB73c6EE2f89;
+    address public marketingWallet = 0x4B28560597fDD73b54f729055b0945A951056078;
+    address public liquidityWallet = address(this); //This is the contract address, LP tokens will be sent to a locked address
 
     IUniswapV2Router02 public uniswapV2Router;
     address public uniswapV2Pair;
@@ -766,7 +767,7 @@ contract TestBest4 is Context, IERC20, Ownable {
     constructor () public {
         _rOwned[_msgSender()] = _rTotal;
         
-        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3);
+        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E);
          // Create a uniswap pair for this new token
         uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
             .createPair(address(this), _uniswapV2Router.WETH());
@@ -911,7 +912,7 @@ contract TestBest4 is Context, IERC20, Ownable {
     }
 
     function excludeFromReward(address account) public onlyOwner() {
-        // require(account != 0xD99D1c33F9fC3444f8101754aBC46c52416550D1, 'We can not exclude Uniswap router.');
+        // require(account != 0x10ED43C718714eb63d5aA57B78B54704E256024E, 'We can not exclude pancakeswap router.');
         require(!_isExcluded[account], "Account is already excluded");
         if(_rOwned[account] > 0) {
             _tOwned[account] = tokenFromReflection(_rOwned[account]);
