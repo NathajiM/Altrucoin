@@ -699,7 +699,7 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
 }
 
 
-contract TestBest4 is Context, IERC20, Ownable {
+contract Altrucoin is Context, IERC20, Ownable {
     using SafeMath for uint256;
     using Address for address;
 
@@ -717,8 +717,8 @@ contract TestBest4 is Context, IERC20, Ownable {
     uint256 private _rTotal = (MAX - (MAX % _tTotal));
     uint256 private _tFeeTotal;
 
-    string private _name = "TESTBEST4";
-    string private _symbol = "TESTBEST4";
+    string private _name = "ALTRUCOIN";
+    string private _symbol = "ALTRUCOIN";
     uint8 private _decimals = 9;
     
     uint256 public _taxFee = 5;
